@@ -28,7 +28,6 @@ export function LawCalculator() {
 
     const [lawCalculatorComputations, setLawCalculatorComputations] = useState<LawCalculatorComputations>(new LawCalculatorComputations());
 
-
     const handleDisputeValue = (event: ChangeEvent) => {
         event.preventDefault();
         const target = event.target as HTMLTextAreaElement;
@@ -61,6 +60,7 @@ export function LawCalculator() {
         >
 
             <List sx={style} component="nav" aria-label="mailbox folders">
+                <h1>Law Calculator</h1>
                 <ListItem button>
                     <TextField fullWidth
                                id="disputeValue-textField"
@@ -86,7 +86,6 @@ export function LawCalculator() {
                         </Select>
                     </FormControl>
                 </ListItem>
-
                 <ListItem button>
                     <TextField fullWidth
                                id="disputeHearings-textField"
@@ -96,9 +95,7 @@ export function LawCalculator() {
                                onChange={handleDisputeHearings}
                     />
                 </ListItem>
-
                 <Divider/>
-
                 <h1>{lawCalculatorComputations.disputeTotal}</h1>
 
             </List>
