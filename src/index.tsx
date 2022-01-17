@@ -6,6 +6,7 @@ import {store} from './app/store';
 import {Provider} from 'react-redux';
 import * as serviceWorker from './serviceWorker';
 import Expenses from "./routes/expenses";
+import Login from "./routes/login";
 
 import {
     BrowserRouter,
@@ -18,7 +19,8 @@ ReactDOM.render(
         <Provider store={store}>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<App/>}/>
+                    <Route path="/" element={<Login/>}/>
+                    <Route path="app" element={<App/>}/>
                     <Route path="expenses" element={<Expenses/>}/>
                 </Routes>
             </BrowserRouter>
