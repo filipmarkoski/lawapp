@@ -1,0 +1,14 @@
+.loginapp {
+    font-family: sans-serif;
+    text-align: center;
+  }
+
+.form {
+    max-width: 400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    padding: 20px;
+    margin-top: 100px;
+  }
