@@ -28,6 +28,9 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
+import {location} from "../router";
+import {Link} from 'react-location';
+import {Button} from "@mui/material";
 
 const drawerWidth = 240;
 
@@ -100,7 +103,8 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
     }),
 );
 
-export default function MiniDrawer() {
+export default function Header() {
+
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
 
@@ -229,9 +233,34 @@ export default function MiniDrawer() {
                     >
                         <MenuIcon/>
                     </IconButton>
-                    <Typography variant="h6" noWrap component="div">
+
+
+                    <Typography
+                        variant="h6"
+                        noWrap
+                        component="div"
+                        sx={{mr: 2, display: {xs: 'none', md: 'flex'}}}
+                    >
                         MetaMars Law App
                     </Typography>
+
+                    <Link to={'/calculator'}>
+                        <Button sx={{color: 'white', display: 'block'}}>
+                            Калкулатор
+                        </Button>
+                    </Link>
+                    <Link to={'/login'}>
+                        <Button sx={{color: 'white', display: 'block'}}>
+                            Login
+                        </Button>
+                    </Link>
+                    <Link to={'/'}>
+                        <Button sx={{color: 'white', display: 'block'}}>
+                            home
+                        </Button>
+                    </Link>
+
+
                     {/*    </Toolbar>*/}
                     {/*</AppBar>*/}
 
@@ -280,6 +309,7 @@ export default function MiniDrawer() {
             </AppBar>
             {renderMobileMenu}
             {renderMenu}
+
             <Drawer variant="permanent" open={open}>
                 <DrawerHeader>
                     <IconButton onClick={handleDrawerClose}>
@@ -309,9 +339,9 @@ export default function MiniDrawer() {
                     ))}
                 </List>
             </Drawer>
+
             <Box component="main" sx={{flexGrow: 1, p: 3}}>
                 <DrawerHeader/>
-
             </Box>
         </Box>
     );

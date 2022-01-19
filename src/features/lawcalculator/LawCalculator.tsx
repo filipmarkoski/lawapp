@@ -20,7 +20,6 @@ const style = {
     bgcolor: 'background.paper',
 };
 
-
 export function LawCalculator() {
 
     const [disputeValue, setDisputeValue] = useState<number>(100000);
@@ -65,7 +64,7 @@ export function LawCalculator() {
             direction="row"
             justifyContent="flex-start"
             alignItems="center"
-        >
+            sx={{display: 'flex', background: 'yellow', marginLeft: 12}}>
 
             <List sx={style} component="nav" aria-label="mailbox folders">
                 <h1>Law Calculator</h1>
@@ -106,7 +105,7 @@ export function LawCalculator() {
 
             </List>
 
-            <Paper sx={{padding: 3, marginTop: 5, marginLeft: 15, minHeight: 250, maxWidth: 400}}>
+            <Paper sx={{padding: 3, marginTop: 2, marginLeft: 2, minHeight: 250, maxWidth: 400}}>
                 {JSON.stringify(state).replaceAll(',', ',\n')}
             </Paper>
         </Grid>
