@@ -11,7 +11,8 @@ import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
-import {DisputeType, LawCalculatorComputations} from "./LawCalculatorComputations";
+import {useLawCalculator} from "../../app/hooks";
+import {DisputeType} from "./LawCalculatorTypes";
 
 const style = {
     width: '100%',
@@ -22,32 +23,39 @@ const style = {
 
 export function LawCalculator() {
 
-    const [disputeValue, setDisputeValue] = useState('');
-    const [disputeType, setDisputeType] = useState('');
-    const [disputeHearings, setDisputeHearings] = useState('');
+    const [disputeValue, setDisputeValue] = useState<number>(100000);
+    const [disputeType, setDisputeType] = useState<DisputeType>(0);
+    const [disputeHearings, setDisputeHearings] = useState<number>(5);
 
-    const [lawCalculatorComputations, setLawCalculatorComputations] = useState<LawCalculatorComputations>(new LawCalculatorComputations());
+    const {state, computeDisputeTotal} = useLawCalculator({
+        disputeValue: 100000,
+        disputeType: DisputeType.Unspecified,
+        disputeHearings: 0,
+    })
 
     const handleDisputeValue = (event: ChangeEvent) => {
         event.preventDefault();
         const target = event.target as HTMLTextAreaElement;
-        let disputeValueValue = target.value;
+        let disputeValueValue = +target.value as unknown as number;
         setDisputeValue(disputeValueValue);
-        lawCalculatorComputations.disputeValue = disputeValue as unknown as number;
+        computeDisputeTotal(disputeValueValue, disputeType, disputeHearings);
     };
 
     const handleDisputeType = (event: SelectChangeEvent) => {
-        let disputeTypeValue = event.target.value as string;
+        event.preventDefault();
+        let disputeTypeValue = +event.target.value as unknown as DisputeType;
         setDisputeType(disputeTypeValue);
-        lawCalculatorComputations.disputeType = disputeType as unknown as DisputeType;
+        console.log('disputeTypeValue', disputeTypeValue);
+        computeDisputeTotal(disputeValue, disputeTypeValue, disputeHearings);
     };
 
     const handleDisputeHearings = (event: ChangeEvent) => {
         event.preventDefault();
         const target = event.target as HTMLTextAreaElement;
-        let disputeHearingsValue = target.value;
+        let disputeHearingsValue = +target.value as unknown as number;
         setDisputeHearings(disputeHearingsValue);
-        lawCalculatorComputations.disputeHearings = disputeHearings as unknown as number;
+        console.log('disputeHearingsValue', disputeHearingsValue);
+        computeDisputeTotal(disputeValue, disputeType, disputeHearingsValue);
     }
 
     return (
@@ -55,7 +63,7 @@ export function LawCalculator() {
         <Grid
             container
             direction="row"
-            justifyContent="center"
+            justifyContent="flex-start"
             alignItems="center"
         >
 
@@ -78,7 +86,7 @@ export function LawCalculator() {
                             labelId="disputeType-select-label"
                             label="Тип на Спорот"
                             id="disputeType-select"
-                            value={disputeType}
+                            value={disputeType as unknown as string}
                             onChange={handleDisputeType}
                         >
                             <MenuItem value={DisputeType.Unspecified}>Неспецифичен Спор</MenuItem>
@@ -95,11 +103,12 @@ export function LawCalculator() {
                                onChange={handleDisputeHearings}
                     />
                 </ListItem>
-                <Divider/>
-                <h1>{lawCalculatorComputations.disputeTotal}</h1>
 
             </List>
 
+            <Paper sx={{padding: 3, marginTop: 5, marginLeft: 15, minHeight: 250, maxWidth: 400}}>
+                {JSON.stringify(state).replaceAll(',', ',\n')}
+            </Paper>
         </Grid>
     );
 }

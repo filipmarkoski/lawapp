@@ -1,7 +1,4 @@
-export enum DisputeType {
-    Unspecified,
-    WorkDispute
-}
+import {DisputeType} from "./LawCalculatorTypes";
 
 export class LawCalculatorComputations {
 
@@ -76,17 +73,6 @@ export class LawCalculatorComputations {
         }
     }
 
-    public computeDisputeTotal(disputeValue: number, disputeType: DisputeType, disputeHearings: number): number {
-        this.disputeBaseExpense = this.computeDisputeBaseExpense(disputeValue, disputeType);
-        this.disputeCourtTax = this.computeDisputeCourtTax(disputeValue);
-        this.disputeLump = this.disputeBaseExpense * 0.30;
-        this.disputeTotal = this.disputeBaseExpense + this.disputeLump;
-        this.officeAbsenceFee = this.disputeTotal * this.officeAbsenceFeeRatio;
-        this.disputeTotal += this.officeAbsenceFee;
-        this.disputeTotal = this.disputeTotal * this._disputeHearings;
-        return this.disputeTotal;
-    }
-
     public computeDisputeCourtTax(disputeValue: number): number {
         if (disputeValue <= 10000) {
             return 600;
@@ -113,7 +99,6 @@ export class LawCalculatorComputations {
             }
         }
         return Number.NaN;
-
     }
 
     public computeDisputeBaseExpense(disputeValue: number, disputeType: DisputeType): number {
@@ -158,4 +143,17 @@ export class LawCalculatorComputations {
         }
         return Number.NaN;
     }
+
+
+    public computeDisputeTotal = (disputeValue: number, disputeType: DisputeType, disputeHearings: number): number => {
+        this.disputeBaseExpense = this.computeDisputeBaseExpense(disputeValue, disputeType);
+        this.disputeCourtTax = this.computeDisputeCourtTax(disputeValue);
+        this.disputeLump = this.disputeBaseExpense * 0.30;
+        this.disputeTotal = this.disputeBaseExpense + this.disputeLump;
+        this.officeAbsenceFee = this.disputeTotal * this.officeAbsenceFeeRatio;
+        this.disputeTotal += this.officeAbsenceFee;
+        this.disputeTotal = this.disputeTotal * disputeHearings;
+        return this.disputeTotal;
+    }
+
 }
